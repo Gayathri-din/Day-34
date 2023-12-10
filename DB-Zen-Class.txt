@@ -1,0 +1,76 @@
+Design database for Zen class programme
+users
+codekata
+attendance
+topics
+tasks
+company_drives
+mentors
+
+1.users:
+       - id 
+       - name
+       - email
+       - enrollment data
+       - mentor id
+
+2.codeketa:
+        - id
+        - user id
+        - data
+        -problems solved
+
+3.attendence:
+
+        - id
+        - user id
+        - data
+        - status
+
+4.topics:
+
+        - id
+        - name
+
+5.task:
+   
+        -id
+        -userid
+        -topics id
+        -date
+
+6.company_drives
+        -id
+        -name
+        -date
+        -no of participants
+
+7.mentors
+
+         - id
+         -name
+         -mentor count
+         
+
+
+
+Questions:
+        1.Find all the topics and tasks which are thought in the month of October
+            Ans: db.tasks.find({ "date": { $gte: ISODate("2022-10-01"), $lt: ISODate("2022-11-01") } })
+
+        2.Find all the company drives which appeared between 15 oct-2020 and 31-oct-2020
+            Ans: db.company_drives.find({ "date": { $gte: ISODate("2020-10-15"), $lte: ISODate("2020-10-31") } })
+
+        3.Find all the company drives and students who are appeared for the placement.
+            Ans: db.company_drives.find({}, { "name": 1, "participants": 1 })
+
+        4.Find the number of problems solved by the user in codekata
+            Ans: db.codekata.aggregate([
+                    { $match: { "user_id": ObjectId("user_id") } },
+                    { $group: { _id: null, total_problems_solved: { $sum: "$problems_solved" } } }
+                    ])
+
+        5.Find all the mentors with who has the mentee's count more than 15
+            Ans: db.mentors.find({ "mentee_count": { $gt: 15 } })
+
+        
